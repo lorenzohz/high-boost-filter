@@ -55,8 +55,8 @@ if __name__ == '__main__':
     mascara_normalizada = (mascara_detalhes - mascara_detalhes.min()) / (mascara_detalhes.max() - mascara_detalhes.min())
 
     # Salvar
-    saida_mascara = f"arvores_mascara_m{m}_k{k}.png"
-    saida_imagem = f"arvores_resultado_m{m}_k{k}.png"
+    saida_mascara = f"mascara_m{m}_k{k}.png"
+    saida_imagem = f"resultado_m{m}_k{k}.png"
     io.imsave(saida_imagem, img_as_ubyte(resultado))
     io.imsave(saida_mascara, img_as_ubyte(mascara_normalizada))
     print(f"Sucesso! Imagem salva como '{saida_imagem}'. Máscara normalizada salva como '{saida_mascara}'.")
