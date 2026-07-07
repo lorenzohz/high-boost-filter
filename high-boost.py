@@ -17,16 +17,14 @@ def filtro_high_boost(imagem, m, k):
     return img_final, mascara
 
 
-
-
 if __name__ == '__main__':
 
     if len(sys.argv) != 4:
-        print("Formato esperado: python script.py <caminho_imagem> <m> <k>")
-        print("Exemplo: python script.py imagem.jpg 5 2.5")
+        print("Formato esperado: python high-boost.py <caminho_imagem> <m> <k>")
+        print("Exemplo: python high-boost.py imagem.png 5 2.5")
         sys.exit(1)
 
-    # parâmetros
+    # Parâmetros
     caminho_imagem = sys.argv[1]
     
     try:
@@ -40,7 +38,7 @@ if __name__ == '__main__':
 
     print(f"Processando '{caminho_imagem}' com m={m} e k={k}...")
 
-    # carregar imagem
+    # Carregar imagem
     try:
         imagem_original = io.imread(caminho_imagem, as_gray=True)
     except FileNotFoundError:
@@ -53,7 +51,12 @@ if __name__ == '__main__':
     # Aplicar filtro
     resultado, mascara_detalhes = filtro_high_boost(imagem_original, m=m, k=k)
 
+    # Normalizar máscara para salvá-la
+    mascara_normalizada = (mascara_detalhes - mascara_detalhes.min()) / (mascara_detalhes.max() - mascara_detalhes.min())
+
     # Salvar
-    nome_saida = f"resultado_m{m}_k{k}.png"
-    io.imsave(nome_saida, img_as_ubyte(resultado))
-    print(f"Sucesso! Imagem salva como '{nome_saida}'.")
+    saida_mascara = f"arvores_mascara_m{m}_k{k}.png"
+    saida_imagem = f"arvores_resultado_m{m}_k{k}.png"
+    io.imsave(saida_imagem, img_as_ubyte(resultado))
+    io.imsave(saida_mascara, img_as_ubyte(mascara_normalizada))
+    print(f"Sucesso! Imagem salva como '{saida_imagem}'. Máscara normalizada salva como '{saida_mascara}'.")
